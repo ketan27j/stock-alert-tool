@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository, FilterQuery, EntityManager } from '@mikro-orm/mysql';
-import { Announcement } from '../entities/annoucement.entity';
-import { Company } from '../entities/company.entity';
-import { CreateAnnouncementDto } from './dto/create-announcement.dto';
-import { QueryAnnouncementDto } from './dto/query-announcement.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@mikro-orm/nestjs";
+import { EntityRepository, FilterQuery, EntityManager } from "@mikro-orm/mysql";
+import { Announcement } from "../entities/annoucement.entity";
+import { Company } from "../entities/company.entity";
+import { CreateAnnouncementDto } from "./dto/create-announcement.dto";
+import { QueryAnnouncementDto } from "./dto/query-announcement.dto";
 
 @Injectable()
 export class AnnouncementsService {
@@ -56,7 +56,7 @@ export class AnnouncementsService {
 
     const where: FilterQuery<Announcement> = {};
 
-    if (exchange && exchange !== 'ALL') {
+    if (exchange && exchange !== "ALL") {
       where.exchange = exchange;
     }
 
@@ -88,8 +88,8 @@ export class AnnouncementsService {
     const [announcements, total] = await this.announcementRepo.findAndCount(
       where,
       {
-        populate: ['company'],
-        orderBy: { announcementDate: 'DESC', createdAt: 'DESC' },
+        populate: ["company"],
+        orderBy: { announcementDate: "DESC", createdAt: "DESC" },
         limit,
         offset: (page - 1) * limit,
       },
@@ -109,7 +109,7 @@ export class AnnouncementsService {
   async findOne(id: number): Promise<Announcement> {
     const announcement = await this.announcementRepo.findOne(
       { id },
-      { populate: ['company'] },
+      { populate: ["company"] },
     );
 
     if (!announcement) {
@@ -123,8 +123,8 @@ export class AnnouncementsService {
     return this.announcementRepo.find(
       {},
       {
-        populate: ['company'],
-        orderBy: { announcementDate: 'DESC', createdAt: 'DESC' },
+        populate: ["company"],
+        orderBy: { announcementDate: "DESC", createdAt: "DESC" },
         limit,
       },
     );
@@ -137,22 +137,22 @@ export class AnnouncementsService {
     return this.announcementRepo.find(
       { company: companyId },
       {
-        populate: ['company'],
-        orderBy: { announcementDate: 'DESC' },
+        populate: ["company"],
+        orderBy: { announcementDate: "DESC" },
         limit,
       },
     );
   }
 
   async findByExchange(
-    exchange: 'NSE' | 'BSE',
+    exchange: "NSE" | "BSE",
     limit: number = 50,
   ): Promise<Announcement[]> {
     return this.announcementRepo.find(
       { exchange },
       {
-        populate: ['company'],
-        orderBy: { announcementDate: 'DESC' },
+        populate: ["company"],
+        orderBy: { announcementDate: "DESC" },
         limit,
       },
     );
@@ -161,7 +161,7 @@ export class AnnouncementsService {
   async getCategories(): Promise<string[]> {
     const result = await this.announcementRepo
       .createQueryBuilder()
-      .select('DISTINCT category')
+      .select("DISTINCT category")
       .where({ category: { $ne: null } })
       .execute();
 

@@ -37,34 +37,6 @@ A full-stack web application that alerts traders and investors about corporate a
 - **React Router** - Navigation
 - **React Hot Toast** - Notifications
 
-## Project Structure
-
-```
-nse-bse-alert-tool/
-├── backend/
-│   ├── src/
-│   │   ├── auth/
-│   │   ├── users/
-│   │   ├── companies/
-│   │   ├── announcements/
-│   │   ├── alerts/
-│   │   ├── scraper/
-│   │   ├── notifications/
-│   │   └── entities/
-│   ├── package.json
-│   └── .env
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── store/
-│   │   ├── services/
-│   │   └── utils/
-│   ├── package.json
-│   └── .env
-└── README.md
-```
-
 ## Getting Started
 
 ### Prerequisites
