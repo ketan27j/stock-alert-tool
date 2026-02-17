@@ -1,6 +1,23 @@
 import api from './api';
+import { Company } from '@types/announcement.types';
 
-export const searchCompanies = async (query: string) => {
-  const res = await api.get(`/companies?search=${encodeURIComponent(query)}`);
-  return res.data;
+export const companyService = {
+  getAll: async (exchange?: 'NSE' | 'BSE') => {
+    const response = await api.get<Company[]>('/companies', {
+      params: { exchange },
+    });
+    return response.data;
+  },
+
+  getById: async (id: number) => {
+    const response = await api.get<Company>(`/companies/${id}`);
+    return response.data;
+  },
+
+  search: async (query: string) => {
+    const response = await api.get<Company[]>('/companies/search', {
+      params: { q: query },
+    });
+    return response.data;
+  },
 };
