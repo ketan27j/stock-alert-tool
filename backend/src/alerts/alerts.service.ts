@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository, EntityManager } from '@mikro-orm/mysql';
-import { Alert } from '../entities/alert.entity';
-import { User } from '../entities/user.entity';
-import { Company } from '../entities/company.entity';
-import { Announcement } from '../entities/annoucement.entity';
-import { CreateAlertDto } from './dto/create-alert.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@mikro-orm/nestjs";
+import { EntityRepository, EntityManager } from "@mikro-orm/mysql";
+import { Alert } from "../entities/alert.entity";
+import { User } from "../entities/user.entity";
+import { Company } from "../entities/company.entity";
+import { Announcement } from "../entities/announcement.entity";
+import { CreateAlertDto } from "./dto/create-alert.dto";
 
 @Injectable()
 export class AlertsService {
@@ -60,8 +60,8 @@ export class AlertsService {
     return this.alertRepo.find(
       { user: userId },
       {
-        populate: ['company'],
-        orderBy: { createdAt: 'DESC' },
+        populate: ["company"],
+        orderBy: { createdAt: "DESC" },
       },
     );
   }
@@ -69,7 +69,7 @@ export class AlertsService {
   async findOne(id: number, userId: number): Promise<Alert> {
     const alert = await this.alertRepo.findOne(
       { id, user: userId },
-      { populate: ['company'] },
+      { populate: ["company"] },
     );
 
     if (!alert) {
@@ -96,7 +96,7 @@ export class AlertsService {
   ): Promise<Alert[]> {
     const alerts = await this.alertRepo.find(
       { active: true },
-      { populate: ['user', 'company'] },
+      { populate: ["user", "company"] },
     );
 
     const matchedAlerts: Alert[] = [];
@@ -112,7 +112,7 @@ export class AlertsService {
       // Check keywords match
       const keywords = JSON.parse(alert.keywords) as string[];
       const titleLower = announcement.title.toLowerCase();
-      const descLower = (announcement.description || '').toLowerCase();
+      const descLower = (announcement.description || "").toLowerCase();
 
       if (
         keywords.some(
@@ -127,7 +127,7 @@ export class AlertsService {
       // Check exchange match
       if (
         alert.exchange &&
-        alert.exchange !== 'BOTH' &&
+        alert.exchange !== "BOTH" &&
         alert.exchange !== announcement.exchange
       ) {
         isMatch = false;

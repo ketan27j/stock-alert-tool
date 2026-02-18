@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository, FilterQuery, EntityManager } from "@mikro-orm/mysql";
-import { Announcement } from "../entities/annoucement.entity";
+import { Announcement } from "../entities/announcement.entity";
 import { Company } from "../entities/company.entity";
 import { CreateAnnouncementDto } from "./dto/create-announcement.dto";
 import { QueryAnnouncementDto } from "./dto/query-announcement.dto";

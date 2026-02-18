@@ -4,9 +4,9 @@ import {
   Property,
   OneToMany,
   Collection,
-} from '@mikro-orm/core';
-import { Announcement } from './annoucement.entity';
-import { Alert } from './alert.entity';
+} from "@mikro-orm/core";
+import { Announcement } from "./announcement.entity";
+import { Alert } from "./alert.entity";
 
 @Entity()
 export class Company {
@@ -20,7 +20,7 @@ export class Company {
   name!: string;
 
   @Property({ length: 10 })
-  exchange!: 'NSE' | 'BSE';
+  exchange!: "NSE" | "BSE";
 
   @Property({ length: 100, nullable: true })
   sector?: string;
@@ -28,13 +28,13 @@ export class Company {
   @Property({ length: 100, nullable: true })
   industry?: string;
 
-  @Property({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  @Property({ type: "decimal", precision: 10, scale: 2, nullable: true })
   marketCap?: number;
 
   @Property({ nullable: true })
   isin?: string;
 
-  @Property({ type: 'boolean', default: true })
+  @Property({ type: "boolean", default: true })
   isActive: boolean = true;
 
   @OneToMany(
@@ -52,7 +52,7 @@ export class Company {
   @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
 
-  constructor(symbol: string, name: string, exchange: 'NSE' | 'BSE') {
+  constructor(symbol: string, name: string, exchange: "NSE" | "BSE") {
     this.symbol = symbol;
     this.name = name;
     this.exchange = exchange;

@@ -4,8 +4,8 @@ import {
   Property,
   ManyToOne,
   Index,
-} from '@mikro-orm/core';
-import { Company } from './company.entity';
+} from "@mikro-orm/core";
+import { Company } from "./company.entity";
 
 @Entity()
 export class Announcement {
@@ -19,10 +19,10 @@ export class Announcement {
   @Index()
   title!: string;
 
-  @Property({ type: 'text', nullable: true })
+  @Property({ type: "text", nullable: true })
   description?: string;
 
-  @Property({ type: 'date' })
+  @Property({ type: "date" })
   @Index()
   announcementDate!: Date;
 
@@ -38,18 +38,18 @@ export class Announcement {
 
   @Property({ length: 10 })
   @Index()
-  exchange!: 'NSE' | 'BSE';
+  exchange!: "NSE" | "BSE";
 
-  @Property({ type: 'text', nullable: true })
+  @Property({ type: "text", nullable: true })
   attachments?: string; // JSON string of attachment URLs
 
-  @Property({ type: 'boolean', default: false })
+  @Property({ type: "boolean", default: false })
   isRead: boolean = false;
 
-  @Property({ type: 'boolean', default: false })
+  @Property({ type: "boolean", default: false })
   isImportant: boolean = false;
 
-  @Property({ type: 'text', nullable: true })
+  @Property({ type: "text", nullable: true })
   keywords?: string; // JSON array of extracted keywords
 
   @Property()
@@ -63,7 +63,7 @@ export class Announcement {
     company: Company,
     title: string,
     announcementDate: Date,
-    exchange: 'NSE' | 'BSE',
+    exchange: "NSE" | "BSE",
   ) {
     this.company = company;
     this.title = title;
