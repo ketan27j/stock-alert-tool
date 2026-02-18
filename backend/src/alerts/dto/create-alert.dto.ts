@@ -4,7 +4,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-} from 'class-validator';
+} from "class-validator";
 
 export class CreateAlertDto {
   @IsOptional()
@@ -15,8 +15,8 @@ export class CreateAlertDto {
   @IsString({ each: true })
   keywords!: string[];
 
-  @IsEnum(['email', 'sms', 'push'])
-  notificationMethod!: 'email' | 'sms' | 'push';
+  @IsEnum(["email", "sms", "push"])
+  notificationMethod!: "email" | "sms" | "push";
 
   @IsOptional()
   @IsString()
@@ -28,6 +28,6 @@ export class CreateAlertDto {
   categories?: string[];
 
   @IsOptional()
-  @IsEnum(['NSE', 'BSE', 'BOTH'])
-  exchange?: 'NSE' | 'BSE' | 'BOTH';
+  @IsEnum(["NSE", "BSE", "BOTH"])
+  exchange?: "NSE" | "BSE" | "BOTH";
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,17 +10,17 @@ import {
   Switch,
   FormControlLabel,
   Alert as MuiAlert,
-} from '@mui/material';
-import { Delete as DeleteIcon } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '@store/index';
+} from "@mui/material";
+import { Delete as DeleteIcon } from "@mui/icons-material";
+import { useAppDispatch, useAppSelector } from "@store/index";
 import {
   fetchAlerts,
   createAlert,
   toggleAlert,
   deleteAlert,
-} from '@store/slices/alertsSlice';
-import AlertForm from '@components/AlertForm/AlertForm';
-import { CreateAlertDto } from '@types/alert.types';
+} from "@store/slices/alertsSlice";
+import AlertForm from "@components/AlertForm/AlertForm";
+import { CreateAlertDto } from "../types/alert.types";
 
 const Alerts = () => {
   const dispatch = useAppDispatch();
@@ -75,9 +75,9 @@ const Alerts = () => {
             alerts.map((alert) => (
               <Card key={alert.id} sx={{ mb: 2 }}>
                 <CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <Box sx={{ flex: 1 }}>
-                      <Box sx={{ display: 'flex', gap: 1, mb: 1, flexWrap: 'wrap' }}>
+                      <Box sx={{ display: "flex", gap: 1, mb: 1, flexWrap: "wrap" }}>
                         {JSON.parse(alert.keywords).map((keyword: string) => (
                           <Chip key={keyword} label={keyword} size="small" color="primary" />
                         ))}
@@ -90,7 +90,7 @@ const Alerts = () => {
                       )}
 
                       <Typography variant="body2" color="text.secondary">
-                        Exchange: {alert.exchange || 'BOTH'} | Method: {alert.notificationMethod}
+                        Exchange: {alert.exchange || "BOTH"} | Method: {alert.notificationMethod}
                       </Typography>
 
                       <Typography variant="caption" color="text.secondary">
@@ -98,7 +98,7 @@ const Alerts = () => {
                       </Typography>
                     </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <FormControlLabel
                         control={
                           <Switch
@@ -106,7 +106,7 @@ const Alerts = () => {
                             onChange={() => handleToggle(alert.id)}
                           />
                         }
-                        label={alert.active ? 'Active' : 'Inactive'}
+                        label={alert.active ? "Active" : "Inactive"}
                       />
                       <IconButton
                         onClick={() => handleDelete(alert.id)}

@@ -1,6 +1,25 @@
 export interface Alert {
-  id: string;
-  companyId: string;
-  threshold: number;
-  active?: boolean;
+  id: number;
+  userId: number;
+  company?: {
+    id: number;
+    name: string;
+    symbol: string;
+  } | null;
+  keywords: string[];
+  notificationMethod: 'email' | 'sms' | 'push';
+  active: boolean;
+  alertType?: string;
+  categories?: string[];
+  exchange?: 'NSE' | 'BSE' | 'BOTH';
+  triggeredCount: number;
+  lastTriggeredAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateAlertDto {
+  companyId?: number;
+  keywords: string[];
+  notificationMethod: 'email' | 'sms' | 'push';
 }
