@@ -1,5 +1,5 @@
 import api from './api';
-import { Alert, CreateAlertDto } from '@types/alert.types';
+import { Alert, CreateAlertDto } from '../types/alert.types';
 
 export const alertService = {
   getAll: async (userId: number) => {
