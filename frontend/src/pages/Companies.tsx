@@ -37,7 +37,7 @@ const Companies = () => {
       </Typography>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Exchange</InputLabel>
             <Select
@@ -52,7 +52,7 @@ const Companies = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={8}>
+        <Grid size={{ xs: 12, sm: 6, md: 8 }}>
           <TextField
             fullWidth
             label="Search Companies"
@@ -65,7 +65,7 @@ const Companies = () => {
 
       <Grid container spacing={2}>
         {filteredCompanies.map((company) => (
-          <Grid item xs={12} sm={6} md={4} key={company.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={company.id}>
             <Card>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>

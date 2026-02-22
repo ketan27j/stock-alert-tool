@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@store/index';
 import { searchCompanies, clearSearchResults } from '@store/slices/companiesSlice';
-import { Company } from '@types/announcement.types';
+import { Company } from '@typings/announcement.types';
 
 interface CompanySearchProps {
   onSelect: (company: Company | null) => void;

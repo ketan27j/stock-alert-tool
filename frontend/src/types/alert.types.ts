@@ -22,4 +22,5 @@ export interface CreateAlertDto {
   companyId?: number;
   keywords: string[];
   notificationMethod: 'email' | 'sms' | 'push';
+  exchange: 'NSE' | 'BSE' | 'BOTH';
 }

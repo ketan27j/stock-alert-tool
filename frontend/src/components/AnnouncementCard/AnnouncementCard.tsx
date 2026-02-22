@@ -13,7 +13,7 @@ import {
   StarBorder as StarBorderIcon,
 } from '@mui/icons-material';
 import { format } from 'date-fns';
-import { Announcement } from '@types/announcement.types';
+import { Announcement } from '@typings/announcement.types';
 
 interface AnnouncementCardProps {
   announcement: Announcement;

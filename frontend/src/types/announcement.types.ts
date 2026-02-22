@@ -16,6 +16,7 @@ export interface Announcement {
   category: string;
   pdfUrl?: string;
   exchange: 'NSE' | 'BSE';
+  isImportant: boolean;
   createdAt: string;
 }
 

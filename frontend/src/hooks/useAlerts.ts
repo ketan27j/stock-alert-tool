@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { fetchAlerts } from '../services/alertService';
+import { alertService } from '../services/alertService';
+import { Alert } from '@typings/alert.types';
 
-export const useAlerts = () => {
-  const [data, setData] = useState<any[]>([]);
+export const useAlerts = (userId: number) => {
+  const [data, setData] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
-    fetchAlerts()
-      .then((d) => mounted && setData(d))
+    alertService.getAll(userId)
+      .then((d: Alert[]) => mounted && setData(d))
       .finally(() => mounted && setLoading(false));
     return () => {
       mounted = false;

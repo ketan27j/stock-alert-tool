@@ -11,8 +11,8 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { Company } from '@types/announcement.types';
-import { CreateAlertDto } from '@types/alert.types';
+import { Company } from '@typings/announcement.types';
+import { CreateAlertDto } from '@typings/alert.types';
 import CompanySearch from '../CompanySearch/CompanySearch';
 
 interface AlertFormProps {

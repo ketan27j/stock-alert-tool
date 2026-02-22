@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Company } from '@types/announcement.types';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { Company } from '@typings/announcement.types';
 import api from '@services/api';
 
 interface CompaniesState {

@@ -70,7 +70,7 @@ const AnnouncementList = () => {
       {/* Filters */}
       <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth size="small">
               <InputLabel>Exchange</InputLabel>
               <Select
@@ -85,7 +85,7 @@ const AnnouncementList = () => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <TextField
               fullWidth
               size="small"
@@ -96,7 +96,7 @@ const AnnouncementList = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid size={{ xs: 12, sm: 6, md: 2 }}>
             <TextField
               fullWidth
               size="small"
@@ -108,7 +108,7 @@ const AnnouncementList = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid size={{ xs: 12, sm: 6, md: 2 }}>
             <TextField
               fullWidth
               size="small"
@@ -120,7 +120,7 @@ const AnnouncementList = () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Button
                 variant="contained"

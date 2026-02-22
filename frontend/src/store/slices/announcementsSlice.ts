@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Announcement, AnnouncementFilters } from '../../types/announcement.types';
+import { Announcement, AnnouncementFilters } from '@typings/announcement.types';
 import { fetchAnnouncementsApi, fetchLatestAnnouncementsApi } from '@services/announcementService';
 
 interface AnnouncementsState {

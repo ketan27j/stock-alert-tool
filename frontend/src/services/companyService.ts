@@ -1,5 +1,5 @@
 import api from './api';
-import { Company } from '@types/announcement.types';
+import { Company } from '@typings/announcement.types';
 
 export const companyService = {
   getAll: async (exchange?: 'NSE' | 'BSE') => {

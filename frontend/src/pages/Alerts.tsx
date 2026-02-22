@@ -20,11 +20,11 @@ import {
   deleteAlert,
 } from "@store/slices/alertsSlice";
 import AlertForm from "@components/AlertForm/AlertForm";
-import { CreateAlertDto } from "../types/alert.types";
+import { CreateAlertDto } from "@typings/alert.types";
 
 const Alerts = () => {
   const dispatch = useAppDispatch();
-  const { alerts, loading, error } = useAppSelector((state) => state.alerts);
+  const { alerts, error } = useAppSelector((state) => state.alerts);
 
   // Hardcoded for demo - in real app, get from auth context
   const userId = 1;
@@ -58,11 +58,11 @@ const Alerts = () => {
       )}
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <AlertForm onSubmit={handleCreateAlert} />
         </Grid>
 
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Typography variant="h6" gutterBottom>
             Active Alerts ({alerts.filter((a) => a.active).length})
           </Typography>
@@ -78,7 +78,7 @@ const Alerts = () => {
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: "flex", gap: 1, mb: 1, flexWrap: "wrap" }}>
-                        {JSON.parse(alert.keywords).map((keyword: string) => (
+                        {alert.keywords.map((keyword: string) => (
                           <Chip key={keyword} label={keyword} size="small" color="primary" />
                         ))}
                       </Box>
