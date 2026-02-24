@@ -12,7 +12,15 @@ import {
   TextField,
   Grid,
   Button,
+  InputAdornment,
+  Chip,
 } from '@mui/material';
+import {
+  Search as SearchIcon,
+  FilterList as FilterIcon,
+  Clear as ClearIcon,
+} from '@mui/icons-material';
+import { alpha } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/index';
 import {
   fetchAnnouncements,
@@ -34,7 +42,7 @@ const AnnouncementList = () => {
     dispatch(fetchAnnouncements({ ...filters, page, limit: 20 }));
   }, [dispatch, filters, page]);
 
-  const handleFilterChange = (key: string, value: any) => {
+  const handleFilterChange = (key: string, value: string) => {
     setLocalFilters({ ...localFilters, [key]: value });
   };
 
@@ -49,17 +57,22 @@ const AnnouncementList = () => {
     setPage(1);
   };
 
+  const hasActiveFilters = localFilters.exchange !== 'ALL' || 
+    localFilters.search || 
+    localFilters.dateFrom || 
+    localFilters.dateTo;
+
   if (loading && announcements.length === 0) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-        <CircularProgress />
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 8 }}>
+        <CircularProgress sx={{ color: 'primary.main' }} />
       </Box>
     );
   }
 
   if (error) {
     return (
-      <Alert severity="error" sx={{ mt: 2 }}>
+      <Alert severity="error" sx={{ borderRadius: 2 }}>
         {error}
       </Alert>
     );
@@ -67,9 +80,27 @@ const AnnouncementList = () => {
 
   return (
     <Box>
-      {/* Filters */}
-      <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
-        <Grid container spacing={2} alignItems="center">
+      <Box sx={{ mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+          <FilterIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+            Filters
+          </Typography>
+          {hasActiveFilters && (
+            <Chip
+              label="Active"
+              size="small"
+              sx={{
+                height: 20,
+                fontSize: '0.6875rem',
+                backgroundColor: alpha('#6B8E7D', 0.1),
+                color: 'primary.main',
+              }}
+            />
+          )}
+        </Box>
+
+        <Grid container spacing={2}>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth size="small">
               <InputLabel>Exchange</InputLabel>
@@ -77,6 +108,12 @@ const AnnouncementList = () => {
                 value={localFilters.exchange || 'ALL'}
                 label="Exchange"
                 onChange={(e) => handleFilterChange('exchange', e.target.value)}
+                sx={{
+                  borderRadius: 2,
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: alpha('#6B8E7D', 0.2),
+                  },
+                }}
               >
                 <MenuItem value="ALL">All Exchanges</MenuItem>
                 <MenuItem value="NSE">NSE</MenuItem>
@@ -89,10 +126,21 @@ const AnnouncementList = () => {
             <TextField
               fullWidth
               size="small"
-              label="Search"
               value={localFilters.search || ''}
               onChange={(e) => handleFilterChange('search', e.target.value)}
               placeholder="Search announcements..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                },
+              }}
             />
           </Grid>
 
@@ -105,6 +153,11 @@ const AnnouncementList = () => {
               value={localFilters.dateFrom || ''}
               onChange={(e) => handleFilterChange('dateFrom', e.target.value)}
               InputLabelProps={{ shrink: true }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                },
+              }}
             />
           </Grid>
 
@@ -117,6 +170,11 @@ const AnnouncementList = () => {
               value={localFilters.dateTo || ''}
               onChange={(e) => handleFilterChange('dateTo', e.target.value)}
               InputLabelProps={{ shrink: true }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                },
+              }}
             />
           </Grid>
 
@@ -126,41 +184,78 @@ const AnnouncementList = () => {
                 variant="contained"
                 onClick={handleApplyFilters}
                 fullWidth
+                sx={{ borderRadius: 2 }}
               >
                 Apply
               </Button>
               <Button
                 variant="outlined"
                 onClick={handleClearFilters}
-                fullWidth
+                sx={{
+                  borderRadius: 2,
+                  minWidth: 'auto',
+                  px: 1.5,
+                }}
               >
-                Clear
+                <ClearIcon fontSize="small" />
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Box>
 
-      {/* Announcements List */}
-      {announcements.length === 0 ? (
-        <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', mt: 4 }}>
-          No announcements found
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+        <Typography variant="body2" color="text.secondary">
+          Showing <Box component="span" sx={{ fontWeight: 600, color: 'text.primary' }}>{announcements.length}</Box> announcements
         </Typography>
+      </Box>
+
+      {announcements.length === 0 ? (
+        <Box sx={{ textAlign: 'center', py: 6 }}>
+          <SearchIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            No announcements found
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Try adjusting your filters or search criteria
+          </Typography>
+        </Box>
       ) : (
         <>
-          {announcements.map((announcement) => (
-            <AnnouncementCard
-              key={announcement.id}
-              announcement={announcement}
-            />
-          ))}
+          <Grid container spacing={2}>
+            {announcements.map((announcement) => (
+              <Grid size={{ xs: 12, md: 6 }} key={announcement.id}>
+                <AnnouncementCard announcement={announcement} />
+              </Grid>
+            ))}
+          </Grid>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              mt: 4,
+              pt: 3,
+              borderTop: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
             <Pagination
               count={10}
               page={page}
               onChange={(_, value) => setPage(value)}
-              color="primary"
+              sx={{
+                '& .MuiPaginationItem-root': {
+                  borderRadius: 2,
+                  '&.Mui-selected': {
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: 'primary.dark',
+                    },
+                  },
+                },
+              }}
             />
           </Box>
         </>

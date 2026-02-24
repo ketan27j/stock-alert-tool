@@ -8,9 +8,10 @@ import {
   Select,
   MenuItem,
   Chip,
-  Paper,
   Typography,
 } from '@mui/material';
+import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material';
+import { alpha } from '@mui/material/styles';
 import { Company } from '@typings/announcement.types';
 import { CreateAlertDto } from '@typings/alert.types';
 import CompanySearch from '../CompanySearch/CompanySearch';
@@ -49,7 +50,6 @@ const AlertForm = ({ onSubmit }: AlertFormProps) => {
 
     onSubmit(alertData);
 
-    // Reset form
     setSelectedCompany(null);
     setKeywords([]);
     setKeywordInput('');
@@ -58,63 +58,152 @@ const AlertForm = ({ onSubmit }: AlertFormProps) => {
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
-        Create New Alert
-      </Typography>
-
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-        <Box sx={{ mb: 3 }}>
-          <CompanySearch
-            onSelect={setSelectedCompany}
-            label="Select Company (Optional)"
-          />
-          {selectedCompany && (
-            <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-              Selected: {selectedCompany.symbol} - {selectedCompany.name}
-            </Typography>
-          )}
-        </Box>
-
-        <Box sx={{ mb: 3 }}>
-          <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-            <TextField
-              fullWidth
-              label="Add Keywords"
-              value={keywordInput}
-              onChange={(e) => setKeywordInput(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  handleAddKeyword();
-                }
-              }}
-              placeholder="e.g., dividend, bonus, merger"
-            />
-            <Button variant="outlined" onClick={handleAddKeyword}>
-              Add
+    <Box component="form" onSubmit={handleSubmit}>
+      <Box sx={{ mb: 3 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 600,
+            color: 'text.secondary',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            mb: 1,
+            display: 'block',
+          }}
+        >
+          Company (Optional)
+        </Typography>
+        <CompanySearch
+          onSelect={setSelectedCompany}
+          label="Select Company"
+        />
+        {selectedCompany && (
+          <Box
+            sx={{
+              mt: 1,
+              p: 1.5,
+              borderRadius: 2,
+              backgroundColor: alpha('#6B8E7D', 0.06),
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontFamily: '"JetBrains Mono", monospace',
+                  fontWeight: 600,
+                }}
+              >
+                {selectedCompany.symbol}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {selectedCompany.name}
+              </Typography>
+            </Box>
+            <Button
+              size="small"
+              onClick={() => setSelectedCompany(null)}
+              sx={{ minWidth: 'auto', p: 0.5 }}
+            >
+              <CloseIcon fontSize="small" />
             </Button>
           </Box>
+        )}
+      </Box>
 
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+      <Box sx={{ mb: 3 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 600,
+            color: 'text.secondary',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            mb: 1,
+            display: 'block',
+          }}
+        >
+          Keywords *
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
+          <TextField
+            fullWidth
+            size="small"
+            value={keywordInput}
+            onChange={(e) => setKeywordInput(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAddKeyword();
+              }
+            }}
+            placeholder="e.g., dividend, bonus, merger"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+              },
+            }}
+          />
+          <Button
+            variant="outlined"
+            onClick={handleAddKeyword}
+            disabled={!keywordInput.trim()}
+            sx={{
+              borderRadius: 2,
+              px: 2,
+              minWidth: 'auto',
+            }}
+          >
+            <AddIcon />
+          </Button>
+        </Box>
+
+        {keywords.length > 0 && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
             {keywords.map((keyword) => (
               <Chip
                 key={keyword}
                 label={keyword}
                 onDelete={() => handleRemoveKeyword(keyword)}
-                color="primary"
-                variant="outlined"
+                sx={{
+                  backgroundColor: alpha('#6B8E7D', 0.1),
+                  color: '#4A6B5A',
+                  fontWeight: 500,
+                  '& .MuiChip-deleteIcon': {
+                    color: '#6B8E7D',
+                    '&:hover': {
+                      color: '#4A6B5A',
+                    },
+                  },
+                }}
               />
             ))}
           </Box>
-        </Box>
+        )}
 
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>Exchange</InputLabel>
+        {keywords.length === 0 && (
+          <Typography variant="caption" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+            Add at least one keyword to create an alert
+          </Typography>
+        )}
+      </Box>
+
+      <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+        <FormControl fullWidth size="small">
+          <InputLabel sx={{ fontWeight: 500 }}>Exchange</InputLabel>
           <Select
             value={exchange}
             label="Exchange"
             onChange={(e) => setExchange(e.target.value as 'NSE' | 'BSE' | 'BOTH')}
+            sx={{
+              borderRadius: 2,
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: alpha('#6B8E7D', 0.2),
+              },
+            }}
           >
             <MenuItem value="BOTH">Both (NSE & BSE)</MenuItem>
             <MenuItem value="NSE">NSE Only</MenuItem>
@@ -122,30 +211,42 @@ const AlertForm = ({ onSubmit }: AlertFormProps) => {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>Notification Method</InputLabel>
+        <FormControl fullWidth size="small">
+          <InputLabel sx={{ fontWeight: 500 }}>Notify Via</InputLabel>
           <Select
             value={notificationMethod}
-            label="Notification Method"
+            label="Notify Via"
             onChange={(e) => setNotificationMethod(e.target.value as 'email' | 'sms' | 'push')}
+            sx={{
+              borderRadius: 2,
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: alpha('#6B8E7D', 0.2),
+              },
+            }}
           >
             <MenuItem value="email">Email</MenuItem>
             <MenuItem value="sms">SMS</MenuItem>
             <MenuItem value="push">Push Notification</MenuItem>
           </Select>
         </FormControl>
-
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          size="large"
-          disabled={keywords.length === 0}
-        >
-          Create Alert
-        </Button>
       </Box>
-    </Paper>
+
+      <Button
+        type="submit"
+        variant="contained"
+        fullWidth
+        size="large"
+        disabled={keywords.length === 0}
+        sx={{
+          py: 1.5,
+          borderRadius: 2,
+          fontWeight: 600,
+          fontSize: '0.9375rem',
+        }}
+      >
+        Create Alert
+      </Button>
+    </Box>
   );
 };
 
