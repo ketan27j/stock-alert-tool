@@ -14,10 +14,14 @@ import {
 import { AnnouncementsService } from './announcements.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { QueryAnnouncementDto } from './dto/query-announcement.dto';
+import { AnnouncementScraperService } from './announcement-scraper.service';
 
 @Controller('announcements')
 export class AnnouncementsController {
-  constructor(private readonly announcementsService: AnnouncementsService) {}
+  constructor(
+    private readonly announcementsService: AnnouncementsService,
+    private readonly scraperService: AnnouncementScraperService,
+  ) {}
 
   @Post()
   create(@Body() createAnnouncementDto: CreateAnnouncementDto) {
@@ -77,5 +81,12 @@ export class AnnouncementsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.announcementsService.remove(id);
+  }
+
+  @Post('trigger-scrape')
+  async triggerScrape() {
+    await this.scraperService.fetchNSEAnnouncements();
+    await this.scraperService.fetchBSEAnnouncements();
+    return { message: 'Scraping triggered successfully' };
   }
 }
